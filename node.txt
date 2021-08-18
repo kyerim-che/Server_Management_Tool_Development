@@ -1,0 +1,13 @@
+## compute nodes
+
+# R740 nodes
+n1  10.1.1.1   np=96   c=1 r=1 size=100
+n2  10.1.1.2   np=96   c=1 r=2 size=100
+n3  10.1.1.3   np=96   c=1 r=3 size=100
+n4  10.1.1.4   np=96   c=1 r=4 size=100
+n5  10.1.1.5   np=96   c=1 r=5 size=100
+n6  10.1.1.6   np=96   c=1 r=6 size=100
+n7  10.1.1.7   np=96   c=1 r=7 size=100
+
+# master
+medicine-master ${server_ip} np=12   c=76 r=8 size=25
