@@ -43,7 +43,7 @@ get_usage() {
     cpus=$(lscpu | grep "^CPU(s):" | awk '{print $2}')
     total_mem=$(free | awk '/Mem:/ { print $2 }')
 
-    echo "USER  CPU usage(%)    MeM usage(%)"
+    echo "USER         CPU usage(%)   MeM usage(%)"
     # echo "USER  CPU usage(%)"
     for USER in `getent passwd | getent passwd | awk -F ":" '1001<$3' | awk -F ":" '$3<10000 {print $1}' | sort -u`
     do
@@ -52,7 +52,7 @@ get_usage() {
         if [ "$USER" = "$own" ]; then continue; fi
         (top -b -n 1 -u "$USER" | awk -v USER=$USER -v CPUS=$cpus -v MEMS=$total_mem 'BEGIN {cpu_sum = 0.0; mem_sum += 0.0}
         NR>7 { cpu_sum += $9; mem_sum += $10;}
-        END { if (cpu_sum > 0.0 || mem_sum > 0.0) printf"%s \t %.2f \t %.2f \n",USER,cpu_sum/CPUS,mem_sum;}') &
+        END { if (cpu_sum > 0.0 || mem_sum > 0.0) printf"%-16s %8.2f \t%8.2f \n",USER,cpu_sum/CPUS,mem_sum;}') &
        
         # don't spawn too many processes in parallel
         sleep 0.05
@@ -62,7 +62,7 @@ get_usage() {
     # print own CPU usage after all spawned processes completed
     (top -b -n 1 -u "$own" | awk -v USER=$own -v CPUS=$cpus -v MEMS=$total_mem 'BEGIN {cpu_sum = 0.0; mem_sum += 0.0}
     NR>7 { cpu_sum += $9; mem_sum += $10;}
-    END { if (cpu_sum > 0.0 || mem_sum > 0.0) printf"%s \t %.2f \t %.2f \n",USER,cpu_sum/CPUS,mem_sum;}')
+    END { if (cpu_sum > 0.0 || mem_sum > 0.0) printf"%-16s %8.2f \t%8.2f \n",USER,cpu_sum/CPUS,mem_sum;}')
 }
 
 dash_line='---------------------------';
